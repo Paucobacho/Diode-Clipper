@@ -22,29 +22,31 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     addAndMakeVisible(inGainLabel);
     inGainLabel.setText("drive", juce::dontSendNotification);
     inGainLabel.attachToComponent(&inGainSlider, true); 
-
+    
     addAndMakeVisible(cutoffSlider);
-    cutoffSlider.setRange(0, 20000.0f);
+    cutoffSlider.setRange(20, 20000.0f);
     cutoffSlider.setTextValueSuffix(" Hz");
     cutoffSlider.addListener(this);
-    //inGainSlider.setValue(500.0); 
+    cutoffSlider.setSkewFactorFromMidPoint(500);
+    cutoffSlider.setValue(500.0); 
 
     addAndMakeVisible(cutoffLabel);
     cutoffLabel.setText("cutoff", juce::dontSendNotification);
     cutoffLabel.attachToComponent(&cutoffSlider, true);
 
     addAndMakeVisible(oscillatorSlider);
-    oscillatorSlider.setRange(0, 5000.0);
+    oscillatorSlider.setRange(20, 5000.0);
     oscillatorSlider.setTextValueSuffix(" Hz");
+    oscillatorSlider.setSkewFactorFromMidPoint(500);
     oscillatorSlider.addListener(this);
-    oscillatorSlider.setValue(1.0);
+    oscillatorSlider.setValue(500.0);
 
     addAndMakeVisible(oscillatorLabel);
     oscillatorLabel.setText("cutoff osc", juce::dontSendNotification);
     oscillatorLabel.attachToComponent(&oscillatorSlider, true);
 
     addAndMakeVisible(levelSlider);
-    levelSlider.setRange(0, 12.0f);
+    levelSlider.setRange(-100, 12.0f);
     levelSlider.setTextValueSuffix(" dB");
     levelSlider.addListener(this);
     levelSlider.setValue(0.0f); 
@@ -63,9 +65,17 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     dryWetLabel.setText("dry/wet", juce::dontSendNotification);
     dryWetLabel.attachToComponent(&dryWetSlider, true);
 
+    addAndMakeVisible(amountSlider);
+    amountSlider.setRange(0.0, 500.0);
+    amountSlider.addListener(this);
+    amountSlider.setValue(0.0);
+
+    addAndMakeVisible(amountLabel);
+    amountLabel.setText("osc amount", juce::dontSendNotification);
+    amountLabel.attachToComponent(&amountSlider, true);
     
 
-    setSize (400, 200);
+    setSize (400, 300);
 }
 
 DiodeClipperAudioProcessorEditor::~DiodeClipperAudioProcessorEditor()
@@ -93,6 +103,8 @@ void DiodeClipperAudioProcessorEditor::resized()
     oscillatorSlider.setBounds(sliderLeft, 80, getWidth() - sliderLeft - 10, 20);
     levelSlider.setBounds(sliderLeft, 110, getWidth() - sliderLeft - 10, 20);
     dryWetSlider.setBounds(sliderLeft, 140, getWidth() - sliderLeft - 10, 20);
+    amountSlider.setBounds(sliderLeft, 170, getWidth() - sliderLeft - 10, 20);
+
     //durationSlider.setBounds(sliderLeft, 50, getWidth() - sliderLeft - 10, 20);
 }
 
@@ -110,13 +122,6 @@ void DiodeClipperAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
     {
         float val = oscillatorSlider.getValue();
         audioProcessor.LCOFreq= val;
-        if (val == 0.0)
-        {
-            audioProcessor.LCOSwitch = false;
-        }
-        else {
-            audioProcessor.LCOSwitch = true;
-        }  
     }
     if (slider == &levelSlider)
     {
@@ -125,5 +130,9 @@ void DiodeClipperAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
     if (slider == &dryWetSlider)
     {
         audioProcessor.dryWet = dryWetSlider.getValue();
+    }
+    if (slider == &amountSlider)
+    {
+        audioProcessor.amount = amountSlider.getValue();
     }
 }

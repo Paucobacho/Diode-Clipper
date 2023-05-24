@@ -164,21 +164,11 @@ void DiodeClipperAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
-        if (LCOSwitch)
-        {
-            
-            //cutoff = cutoff + oscillation * 500;
-        }
-        else {
-            LCOFreq = 1.0f;
-        }
-
         LCO[channel].setCircuitParams(LCOFreq, LCOSwitch);
 
         //DBG("osc = " << (float)oscillation);
 
-        diodeClipper[channel].setCircuitParams(cutoff);
+        diodeClipper[channel].setCircuitParams(cutoff + oscillation*amount);
 
 
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
