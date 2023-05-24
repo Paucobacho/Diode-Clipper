@@ -14,10 +14,10 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
     addAndMakeVisible(inGainSlider);
-    inGainSlider.setRange(0, 50.0f);
+    inGainSlider.setRange(0, 48);
     inGainSlider.setTextValueSuffix(" dB");
     inGainSlider.addListener(this);
-    //inGainSlider.setValue(500.0); 
+    //inGainSlider.setValue(juce::Decibels::gainToDecibels(audioProcessor.drive)); 
     
     addAndMakeVisible(inGainLabel);
     inGainLabel.setText("drive", juce::dontSendNotification);
@@ -44,10 +44,10 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     oscillatorLabel.attachToComponent(&oscillatorSlider, true);
 
     addAndMakeVisible(levelSlider);
-    levelSlider.setRange(0, 10.0f);
+    levelSlider.setRange(0, 12.0f);
     levelSlider.setTextValueSuffix(" dB");
     levelSlider.addListener(this);
-    //inGainSlider.setValue(500.0); 
+    levelSlider.setValue(0.0f); 
 
     addAndMakeVisible(levelLabel);
     levelLabel.setText("level", juce::dontSendNotification);
@@ -100,7 +100,7 @@ void DiodeClipperAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &inGainSlider)
     {
-        audioProcessor.drive = inGainSlider.getValue();
+        audioProcessor.drive = pow(10, inGainSlider.getValue() / 20);
     }
     if (slider == &cutoffSlider)
     {
@@ -120,7 +120,7 @@ void DiodeClipperAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
     }
     if (slider == &levelSlider)
     {
-        audioProcessor.level= levelSlider.getValue();
+        audioProcessor.level = pow(10, levelSlider.getValue() / 20);
     }
     if (slider == &dryWetSlider)
     {
