@@ -36,8 +36,6 @@ private:
     juce::Label oscillatorLabel;
     juce::Slider levelSlider;
     juce::Label levelLabel;
-    juce::Slider dryWetSlider;
-    juce::Label dryWetLabel;
     juce::Slider amountSlider;
     juce::Label amountLabel;
 

@@ -17,32 +17,32 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     inGainSlider.setRange(0, 48);
     inGainSlider.setTextValueSuffix(" dB");
     inGainSlider.addListener(this);
-    //inGainSlider.setValue(juce::Decibels::gainToDecibels(audioProcessor.drive)); 
+    inGainSlider.setValue(audioProcessor.drive); 
     
     addAndMakeVisible(inGainLabel);
     inGainLabel.setText("drive", juce::dontSendNotification);
     inGainLabel.attachToComponent(&inGainSlider, true); 
     
     addAndMakeVisible(cutoffSlider);
-    cutoffSlider.setRange(20, 20000.0f);
+    cutoffSlider.setRange(20.0, 20000.0f);
     cutoffSlider.setTextValueSuffix(" Hz");
     cutoffSlider.addListener(this);
     cutoffSlider.setSkewFactorFromMidPoint(500);
-    cutoffSlider.setValue(500.0); 
+    cutoffSlider.setValue(audioProcessor.cutoff); 
 
     addAndMakeVisible(cutoffLabel);
     cutoffLabel.setText("cutoff", juce::dontSendNotification);
     cutoffLabel.attachToComponent(&cutoffSlider, true);
 
     addAndMakeVisible(oscillatorSlider);
-    oscillatorSlider.setRange(20, 5000.0);
+    oscillatorSlider.setRange(0, 15.0);
     oscillatorSlider.setTextValueSuffix(" Hz");
-    oscillatorSlider.setSkewFactorFromMidPoint(500);
+    //oscillatorSlider.setSkewFactorFromMidPoint(500);
     oscillatorSlider.addListener(this);
-    oscillatorSlider.setValue(500.0);
+    oscillatorSlider.setValue(audioProcessor.LCOFreq);
 
     addAndMakeVisible(oscillatorLabel);
-    oscillatorLabel.setText("cutoff osc", juce::dontSendNotification);
+    oscillatorLabel.setText("rate", juce::dontSendNotification);
     oscillatorLabel.attachToComponent(&oscillatorSlider, true);
 
     addAndMakeVisible(levelSlider);
@@ -55,23 +55,13 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     levelLabel.setText("level", juce::dontSendNotification);
     levelLabel.attachToComponent(&levelSlider, true);
 
-    addAndMakeVisible(dryWetSlider);
-    dryWetSlider.setRange(0, 1.0);
-    //levelSlider.setTextValueSuffix(" dB");
-    dryWetSlider.addListener(this);
-    dryWetSlider.setValue(1.0);
-
-    addAndMakeVisible(dryWetLabel);
-    dryWetLabel.setText("dry/wet", juce::dontSendNotification);
-    dryWetLabel.attachToComponent(&dryWetSlider, true);
-
     addAndMakeVisible(amountSlider);
     amountSlider.setRange(0.0, 500.0);
     amountSlider.addListener(this);
     amountSlider.setValue(0.0);
 
     addAndMakeVisible(amountLabel);
-    amountLabel.setText("osc amount", juce::dontSendNotification);
+    amountLabel.setText("amount", juce::dontSendNotification);
     amountLabel.attachToComponent(&amountSlider, true);
     
 
@@ -101,9 +91,9 @@ void DiodeClipperAudioProcessorEditor::resized()
     inGainSlider.setBounds(sliderLeft, 20, getWidth() - sliderLeft - 10, 20);
     cutoffSlider.setBounds(sliderLeft, 50, getWidth() - sliderLeft - 10, 20);
     oscillatorSlider.setBounds(sliderLeft, 80, getWidth() - sliderLeft - 10, 20);
-    levelSlider.setBounds(sliderLeft, 110, getWidth() - sliderLeft - 10, 20);
-    dryWetSlider.setBounds(sliderLeft, 140, getWidth() - sliderLeft - 10, 20);
-    amountSlider.setBounds(sliderLeft, 170, getWidth() - sliderLeft - 10, 20);
+    amountSlider.setBounds(sliderLeft, 110, getWidth() - sliderLeft - 10, 20);
+    levelSlider.setBounds(sliderLeft, 170, getWidth() - sliderLeft - 10, 20);
+ 
 
     //durationSlider.setBounds(sliderLeft, 50, getWidth() - sliderLeft - 10, 20);
 }
@@ -126,10 +116,6 @@ void DiodeClipperAudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
     if (slider == &levelSlider)
     {
         audioProcessor.level = pow(10, levelSlider.getValue() / 20);
-    }
-    if (slider == &dryWetSlider)
-    {
-        audioProcessor.dryWet = dryWetSlider.getValue();
     }
     if (slider == &amountSlider)
     {

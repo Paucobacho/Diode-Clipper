@@ -63,14 +63,14 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     // my methods and variables
-    float drive{1.0f};
+    float drive{6.0f};
     float level{1.0f};
-    float cutoff{500.0f};
-    float LCOFreq{500.0f};
-    float dryWet{1.0f};
+    float cutoff{20000.0f};
+    float LCOFreq{10.0f};
     bool LCOSwitch{true};
     float oscillation = 0.0f;
     float amount = 0.0f;
+    float updatedCutoff = cutoff;
 
 private:
     //==============================================================================

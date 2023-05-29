@@ -166,15 +166,22 @@ void DiodeClipperAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
 
         LCO[channel].setCircuitParams(LCOFreq, LCOSwitch);
 
-        //DBG("osc = " << (float)oscillation);
+        updatedCutoff = cutoff + oscillation * amount;
 
-        diodeClipper[channel].setCircuitParams(cutoff + oscillation*amount);
+        // edge case where the oscillator sends the cutoff below 20 --> this produces noise artifacts
+        if (updatedCutoff <= 200.0)
+        {
+            //updatedCutoff = 200.0;
+        }
 
+        diodeClipper[channel].setCircuitParams(updatedCutoff);
+
+        //DBG("cutoff = " << cutoff + oscillation * amount);
 
         for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
         {
             oscillation = LCO[channel].processSample(1.0f) - 1.0f;
-            channelData[sample] = (channelData[sample] * (1 - dryWet) + diodeClipper[channel].processSample(channelData[sample] * drive) * (dryWet)) * level;
+            channelData[sample] = (diodeClipper[channel].processSample(channelData[sample] * drive)) * level;
             //channelData[sample] = LCO[channel].processSample(1.0f) - 1.0f;
         }
     }
