@@ -38,9 +38,9 @@ private:
     juce::Label levelLabel;
     juce::Slider amountSlider;
     juce::Label amountLabel;
-
-    juce::TextButton oscillatorButton{ "oscillator" };
-    float oscillatorSwitch = false;
+    juce::TextButton lfoButton{ "LFO Off" };
+    bool lfoSwitch = false;
+    juce::Label pluginTitle;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

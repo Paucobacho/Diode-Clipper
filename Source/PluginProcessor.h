@@ -67,7 +67,7 @@ public:
     float level{1.0f};
     float cutoff{20000.0f};
     float LCOFreq{10.0f};
-    bool LCOSwitch{true};
+    bool LCOSwitch{false};
     float oscillation = 0.0f;
     float amount = 0.0f;
     float updatedCutoff = cutoff;
