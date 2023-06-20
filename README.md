@@ -5,4 +5,6 @@ This repository contains a C++ implementation of a Diode Clipper plugin followin
 The audio plugin contains a WDF diode clipper and a WDF LC Oscillator that is mapped to the cutoff value of the diode clipper. 
 
 <img src="./resources/plugin_UI_2.PNG" width=500>
+<img src="./resources/pluginabletn.PNG" width=1000>
+
 
