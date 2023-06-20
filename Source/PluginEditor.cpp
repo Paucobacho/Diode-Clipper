@@ -21,7 +21,7 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     inGainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     inGainSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow, true, 100, 50);
     inGainSlider.setNumDecimalPlacesToDisplay(2);
-    inGainSlider.setRange(0, 48);
+    inGainSlider.setRange(0, 60);
     inGainSlider.setTextValueSuffix(" dB");
     inGainSlider.addListener(this);
     inGainSlider.setValue(audioProcessor.drive); 
@@ -48,7 +48,7 @@ DiodeClipperAudioProcessorEditor::DiodeClipperAudioProcessorEditor (DiodeClipper
     oscillatorSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryHorizontalVerticalDrag);
     oscillatorSlider.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow, true, 100, 50);
     oscillatorSlider.setNumDecimalPlacesToDisplay(2);
-    oscillatorSlider.setRange(0.01, 15.0);
+    oscillatorSlider.setRange(1.0f, 15.0f);
     oscillatorSlider.setTextValueSuffix(" Hz");
     oscillatorSlider.addListener(this);
     oscillatorSlider.setValue(audioProcessor.LCOFreq);
